@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice';
-import { useAppSelector } from '@/components/redux/hooks';
-import { getCurrentBoardName } from '@/components/redux/features/appSlice';
+import { useAppSelector, useAppDispatch } from '@/components/redux/hooks';
+import {
+  getCurrentBoardName,
+  openAddAndEditBoardModal,
+} from '@/components/redux/features/appSlice';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
 // Define types for the tasks data
@@ -41,6 +44,8 @@ export default function BoardTasks() {
       }
     }
   }, [data, activeBoard]);
+
+  const dispatch = useAppDispatch();
 
   return (
     <div className='overflow-x-auto overflow-y-auto w-full p-6 bg-stone-200'>
@@ -89,7 +94,12 @@ export default function BoardTasks() {
               })}
               {/* If the number of columns of tasks is less than 7, display an option to add more columns */}
               {columns.length < 7 ? (
-                <div className='rounded-md bg-white w-[17.5rem] mt-12 shrink-0 flex justify-center items-center'>
+                <div
+                  onClick={() =>
+                    dispatch(openAddAndEditBoardModal('Edit Board'))
+                  }
+                  className='rounded-md bg-white w-[17.5rem] mt-12 shrink-0 flex justify-center items-center'
+                >
                   <p className='cursor-pointer font-bold text-black text-2xl'>
                     + New Column
                   </p>
