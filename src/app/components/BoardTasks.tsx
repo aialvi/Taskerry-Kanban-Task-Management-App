@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/components/redux/hooks';
 import {
   getCurrentBoardName,
   openAddAndEditBoardModal,
+  openAddAndEditTaskModal,
 } from '@/components/redux/features/appSlice';
 import { MdEdit, MdDelete } from 'react-icons/md';
 
@@ -80,7 +81,20 @@ export default function BoardTasks() {
                             >
                               <p>{title}</p>
                               <div className='flex items-center space-x-1'>
-                                <MdEdit className='text-lg cursor-pointer' />
+                                <MdEdit
+                                    onClick={() =>
+                                        dispatch(
+                                            openAddAndEditTaskModal({
+                                                variant: 'Edit Task',
+                                                title,
+                                                index,
+                                                name,
+                                            })
+                                        )
+                                    }
+                                    className='text-lg cursor-pointer'
+                                />
+                                ;
                                 <MdDelete className='text-lg cursor-pointer text-red-500' />
                               </div>
                             </div>
