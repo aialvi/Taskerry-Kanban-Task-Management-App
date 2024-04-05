@@ -3,8 +3,6 @@ import { getSession } from 'next-auth/react';
 // additionally import the doc and updateDoc method from firestore to get user document reference and update the document, respectively
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '@/components/app/utils/firebaseConfig';
-// @ts-ignore
-import { QueryReturnValue } from '@reduxjs/toolkit/query';
 
 export const fireStoreApi = createApi({
   reducerPath: 'firestoreApi',
@@ -12,21 +10,18 @@ export const fireStoreApi = createApi({
   tagTypes: ['Tasks'],
   endpoints: (builder) => ({
     fetchDataFromDb: builder.query<{ [key: string]: any }[], void>({
-      async queryFn(): Promise<
-        QueryReturnValue<{ [key: string]: any }[], unknown, {} | undefined>
-      > {
+      // @ts-ignore
+      async queryFn() {
         try {
           const session = await getSession();
           if (session?.user) {
             const { user } = session;
             const ref = collection(db, `users/${user.email}/tasks`);
             const querySnapshot = await getDocs(ref);
-            const data = querySnapshot.docs.map((doc) => doc.data());
-            return { data: data, error: undefined };
+            return { data: querySnapshot.docs.map((doc) => doc.data()) };
           }
-          return { data: [], error: undefined };
         } catch (e) {
-          return { data: [], error: e };
+          return { error: e };
         }
       },
       providesTags: ['Tasks'],

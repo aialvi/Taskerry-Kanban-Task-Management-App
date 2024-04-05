@@ -76,7 +76,7 @@ export default function AddOrEditTaskModal() {
         }
       }
     }
-  }, [data, modalVariant]);
+  }, [currentBoardTitle, currentTaskTitle, data, isVariantAdd, modalVariant]);
 
   // Effect to clear error messages after a certain time
   useEffect(() => {

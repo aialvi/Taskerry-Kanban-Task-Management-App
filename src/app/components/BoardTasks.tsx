@@ -1,24 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useFetchDataFromDbQuery } from '@/components/redux/services/apiSlice';
-import { useAppSelector, useAppDispatch } from '@/components/redux/hooks';
+import { useEffect, useState, useRef } from 'react';
 import {
-  getCurrentBoardName,
+  useFetchDataFromDbQuery,
+  useUpdateBoardToDbMutation,
+} from '@/components/redux/services/apiSlice';
+import { useAppDispatch, useAppSelector } from '@/components/redux/hooks';
+import { getCurrentBoardName } from '@/components/redux/features/appSlice';
+import { MdEdit, MdDelete } from 'react-icons/md';
+import {
   openAddAndEditBoardModal,
   openAddAndEditTaskModal,
+  openDeleteBoardAndTaskModal,
 } from '@/components/redux/features/appSlice';
-import { MdEdit, MdDelete } from 'react-icons/md';
 
 // Define types for the tasks data
 interface ITask {
+  id: string;
   title: string;
-  description: string;
   status: string;
+  index: number;
 }
 
 // Define types for the data in each column
 interface Column {
+  id: string;
   name: string;
-  tasks?: ITask[];
+  tasks: ITask[];
 }
 
 export default function BoardTasks() {
@@ -72,7 +78,7 @@ export default function BoardTasks() {
                       // Display the tasks if there are tasks in the column, if not, display an empty column
                       (tasks.length > 0 ? (
                         tasks.map((task) => {
-                          const { id, title, status } = task;
+                          const { id, title, index, status } = task;
 
                           return (
                             <div
@@ -82,20 +88,32 @@ export default function BoardTasks() {
                               <p>{title}</p>
                               <div className='flex items-center space-x-1'>
                                 <MdEdit
-                                    onClick={() =>
-                                        dispatch(
-                                            openAddAndEditTaskModal({
-                                                variant: 'Edit Task',
-                                                title,
-                                                index,
-                                                name,
-                                            })
-                                        )
-                                    }
-                                    className='text-lg cursor-pointer'
+                                  onClick={() =>
+                                    dispatch(
+                                      openAddAndEditTaskModal({
+                                        variant: 'Edit Task',
+                                        title,
+                                        index,
+                                        name,
+                                      })
+                                    )
+                                  }
+                                  className='text-lg cursor-pointer'
                                 />
                                 ;
-                                <MdDelete className='text-lg cursor-pointer text-red-500' />
+                                <MdDelete
+                                  onClick={() =>
+                                    dispatch(
+                                      openDeleteBoardAndTaskModal({
+                                        variant: 'Delete this Task?',
+                                        status,
+                                        index,
+                                      })
+                                    )
+                                  }
+                                  className='text-lg cursor-pointer text-red-500'
+                                />
+                                ;{' '}
                               </div>
                             </div>
                           );

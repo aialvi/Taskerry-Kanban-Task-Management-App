@@ -12,6 +12,7 @@ import { getSession } from 'next-auth/react';
 import { data } from './utils/data';
 import AddAndEditBoardModal from './components/AddAndEditBoardModal';
 import AddAndEditTaskModal from './components/AddAndEditTaskModal';
+import DeleteBoardAndTaskModal from './components/DeleteBoardAndTask';
 
 export default function Home() {
   // Manage user details in this state. Key index in TypeScript ensures type safety.
@@ -64,6 +65,7 @@ export default function Home() {
       <BoardTasks />
       <AddAndEditBoardModal />
       <AddAndEditTaskModal />
+      <DeleteBoardAndTaskModal />
     </main>
   );
 }
