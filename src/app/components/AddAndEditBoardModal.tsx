@@ -60,7 +60,6 @@ export default function AddAndEditBoardModal() {
   // Mutation hook for updating the board in the database
   const [updateBoardToDb, { isLoading }] = useUpdateBoardToDbMutation();
 
-  // Effect to set initial data for the modal based on the variant
   useEffect(() => {
     if (data) {
       if (isVariantAdd) {
@@ -72,7 +71,7 @@ export default function AddAndEditBoardModal() {
         setBoardData(activeBoard);
       }
     }
-  }, [currentBoardTitle, data, isVariantAdd, modalVariant]);
+  }, [data, modalVariant]);
 
   // Effect to clear error messages after a certain time
   useEffect(() => {
@@ -209,51 +208,51 @@ export default function AddAndEditBoardModal() {
         {boardData && (
           <>
             {/* display the variant(title) of the modal */}
-            <p className="text-lg font-bold">{modalVariant}</p>
-            <div className="py-6">
+            <p className='text-lg font-bold'>{modalVariant}</p>
+            <div className='py-6'>
               <div>
-                <label htmlFor="boardName" className="text-sm">
+                <label htmlFor='boardName' className='text-sm'>
                   Board Name
                 </label>
-                <div className="pt-2">
+                <div className='pt-2'>
                   <input
-                    id="boardName"
+                    id='boardName'
                     className={`${
-                      isBoardNameEmpty ? "border-red-500" : "border-stone-200"
+                      isBoardNameEmpty ? 'border-red-500' : 'border-stone-200'
                     } border w-full p-2 rounded text-sm cursor-pointer focus:outline-none`}
-                    placeholder="Name"
+                    placeholder='Name'
                     value={boardData.name}
                     onChange={handleBoardNameChange}
                   />
                 </div>
                 {/* display this error if the board name is empty */}
                 {isBoardNameEmpty ? (
-                  <p className="text-xs text-red-500">
+                  <p className='text-xs text-red-500'>
                     Board name cannot be empty
                   </p>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
-              <div className="mt-6">
-                <label htmlFor="" className="text-sm">
+              <div className='mt-6'>
+                <label htmlFor='' className='text-sm'>
                   Board Column
                 </label>
                 {boardData &&
                   boardData.columns.map(
-                    (column: { name: string, id: string }, index: number) => {
+                    (column: { name: string; id: string }, index: number) => {
                       let { name, id } = column;
                       return (
-                        <div key={id} className="pt-2">
-                          <div className="flex items-center space-x-2">
+                        <div key={id} className='pt-2'>
+                          <div className='flex items-center space-x-2'>
                             <input
                               className={`${
                                 emptyColumnIndex === index
-                                  ? "border-red-500"
-                                  : "border-stone-200"
+                                  ? 'border-red-500'
+                                  : 'border-stone-200'
                               } border border-stone-200 focus:outline-none text-sm cursor-pointer w-full p-2 rounded`}
-                              placeholder="e.g Doing"
+                              placeholder='e.g Doing'
                               onChange={(e) => handleColumnNameChange(index)(e)}
                               value={name!}
                             />
@@ -265,42 +264,42 @@ export default function AddAndEditBoardModal() {
                           </div>
                           {/* display this error if the board name is empty */}
                           {emptyColumnIndex === index ? (
-                            <p className="text-xs text-red-500">
+                            <p className='text-xs text-red-500'>
                               Column name cannot be empty
                             </p>
                           ) : (
-                            ""
+                            ''
                           )}
                         </div>
                       );
                     }
                   )}
-                <div className="mt-3">
+                <div className='mt-3'>
                   <button
-                    type="button"
+                    type='button'
                     onClick={handleAddNewColumn}
-                    className="bg-stone-200 rounded-3xl py-2 w-full text-sm font-bold"
+                    className='bg-stone-200 rounded-3xl py-2 w-full text-sm font-bold'
                   >
                     <p>+ Add New Column</p>
                   </button>
                 </div>
               </div>
-              <div className="pt-6">
+              <div className='pt-6'>
                 <button
-                  type="submit"
+                  type='submit'
                   onClick={(e: React.FormEvent<HTMLButtonElement>) => {
                     // function to run depending on the variant of the modals
                     isVariantAdd
                       ? handleAddNewBoardToDb(e)
                       : handleEditBoardToDb(e);
                   }}
-                  className="bg-blue-500 rounded-3xl py-2 w-full text-sm font-bold"
+                  className='bg-blue-500 rounded-3xl py-2 w-full text-sm font-bold'
                 >
                   {/* text to display depending on the variant of the modal */}
                   <p>
                     {isLoading
-                      ? "Loading"
-                      : `${isVariantAdd ? "Create New Board" : "Save Changes"}`}
+                      ? 'Loading'
+                      : `${isVariantAdd ? 'Create New Board' : 'Save Changes'}`}
                   </p>
                 </button>
               </div>

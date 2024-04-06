@@ -1,6 +1,6 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getSession } from 'next-auth/react';
-// additionally import the doc and updateDoc method from firestore to get user document reference and update the document, respectively
+// additionally import the doc and updateDoc method from firestore
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '@/components/app/utils/firebaseConfig';
 
@@ -10,25 +10,25 @@ export const fireStoreApi = createApi({
   tagTypes: ['Tasks'],
   endpoints: (builder) => ({
     fetchDataFromDb: builder.query<{ [key: string]: any }[], void>({
-      // @ts-ignore
       async queryFn() {
         try {
           const session = await getSession();
-          if (session?.user) {
-            const { user } = session;
-            const ref = collection(db, `users/${user.email}/tasks`);
-            const querySnapshot = await getDocs(ref);
-            return { data: querySnapshot.docs.map((doc) => doc.data()) };
-          }
-        } catch (e) {
-          return { error: e };
+          const { user } = session!;
+          const ref = collection(db, `users/${user?.email}/tasks`);
+          const querySnapshot = await getDocs(ref);
+          const boards = querySnapshot.docs.map((doc) => {
+            return doc.data();
+          });
+          return { data: boards };
+        } catch (e: any) {
+          return { error: e.message };
         }
       },
       providesTags: ['Tasks'],
     }),
     // endpoint for CRUD actions
     updateBoardToDb: builder.mutation({
-      async queryFn(boardData) {
+      async queryFn(arg) {
         try {
           const session = await getSession();
           if (session?.user) {
@@ -39,12 +39,12 @@ export const fireStoreApi = createApi({
               return doc.id;
             });
             await updateDoc(doc(db, `users/${user.email}/tasks/${boardId}`), {
-              boards: boardData,
+              boards: arg,
             });
           }
-          return { data: null };
+          return Promise.resolve({ data: null });
         } catch (e) {
-          return { error: e };
+          return Promise.reject({ error: e });
         }
       },
       invalidatesTags: ['Tasks'], // this will be used to invalidate the initially fetched data.
