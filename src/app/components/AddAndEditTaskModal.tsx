@@ -316,7 +316,7 @@ export default function AddOrEditTaskModal() {
                 // function to run depending on the variant of the modals
                 isVariantAdd ? handleAddNewTaskToDb(e) : handleEditTaskToDb(e);
               }}
-              className='bg-blue-500 rounded-3xl py-2 w-full text-sm font-bold'
+              className='bg-gray-500 rounded-3xl py-2 w-full text-sm font-bold text-white'
             >
               <p>
                 {isLoading

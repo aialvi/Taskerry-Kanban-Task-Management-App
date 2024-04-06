@@ -232,7 +232,7 @@ export default function BoardTasks() {
                 <p className='text-black text-sm'>
                   This board is empty. Create a new column to get started.
                 </p>
-                <button className='bg-blue-500 text-black px-4 py-2 flex mt-6 rounded-3xl items-center space-x-2'>
+                <button className='bg-gray-500 text-black px-4 py-2 flex mt-6 rounded-3xl items-center space-x-2'>
                   <p>+ Add New Column</p>
                 </button>
               </div>

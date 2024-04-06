@@ -47,7 +47,7 @@ export default function Navbar() {
             onClick={() =>
               dispatch(openAddAndEditTaskModal({ variant: 'Add New Task' }))
             }
-            className='bg-blue-500 text-black px-4 py-2 flex rounded-3xl items-center space-x-2'
+            className='bg-gray-500 text-white px-4 py-2 flex rounded-sm items-center space-x-2'
           >
             <p>+ Add New Task</p>
           </button>

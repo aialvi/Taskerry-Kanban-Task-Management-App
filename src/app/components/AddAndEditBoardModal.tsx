@@ -293,7 +293,7 @@ export default function AddAndEditBoardModal() {
                       ? handleAddNewBoardToDb(e)
                       : handleEditBoardToDb(e);
                   }}
-                  className='bg-blue-500 rounded-3xl py-2 w-full text-sm font-bold'
+                  className='bg-gray-500 rounded-3xl py-2 w-full text-sm font-bold text-white'
                 >
                   {/* text to display depending on the variant of the modal */}
                   <p>
